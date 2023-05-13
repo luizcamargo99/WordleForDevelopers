@@ -1,0 +1,126 @@
+﻿@inject IJSRuntime js
+
+<section class="flex column center" style="gap: 20px">
+    <div class="flex column space-10">
+        @for (int i = 0; i < _matriz.Length; i++)
+        {
+            <div class="flex row space-10">
+                @for (int j = 0; j < _matriz[i].Length; j++)
+                {
+                    <div class="flex cell center" id="@($"{i}-{j}")">
+                        <span>@(_matriz[i][j])</span>
+                    </div>
+                }
+            </div>
+        }
+    </div>
+
+    <Keyboard WriteAction="async(param) => await WriteAsync(param)" EraseAction="async() => { await EraseAsync(); }"></Keyboard>
+
+    <button @onclick="async() => { await SubmitAsync(); }" disabled="@(_matriz[_attempt].Contains(string.Empty))">SUBMIT</button>
+</section>
+
+@code {
+    private int _attempt = 0;
+    private int _cursor = 0;
+    private int _maxLength = 5;
+    private string[][] _matriz = new string[6][];
+    private string _chosenWord = "";
+    private string[] _words = new string[]
+    {
+        "HTML", "SWIFT", "SHELL", "JULIA", "SCALA", "MYSQL", "REDIS", "FLASK", "RAILS",
+        "EMBER", "GRUNT", "SOLID", "GNOME", "KARMA", "REACT", "NETTE", "REDUX", "VUEJS",
+        "SPARK", "KAFKA", "COBOL", "FIGMA", "RAILS", "AGILE", "SCRUM", "LINUX", "REGEX",
+        "STACK", "QUEUE", "ERROR", "DEBUG", "INPUT", "SCOPE", "FLOAT", "CLASS", "INDEX",
+        "LOGIC", "ARRAY", "QUICK", "MERGE", "SLICE", "PRINT", "AWAIT", "ASYNC", "WHILE",
+        "THROW", "YIELD", "CATCH", "EVENT", "RANGE", "QUERY", "PARSE", "FETCH", "BREAK",
+        "TOKEN", "VISIT", "VALUE", "ALIAS", "CLONE", "COUNT", "LABEL", "ORDER", "GROUP",
+        "MATCH", "CHECK", "DEPTH", "SCALE", "POINT", "POWER"
+    };
+
+    protected override void OnInitialized()
+    {
+        InitializeMatriz();
+        ChooseWord();
+    }    
+
+    private void InitializeMatriz()
+    {
+        for (int i = 0; i < _matriz.Length; i++)
+        {
+            _matriz[i] = new string[_maxLength];
+            for (int j = 0; j < _maxLength; j++)
+            {
+                _matriz[i][j] = string.Empty;
+            }
+        }
+    }
+
+    private void ChooseWord()
+    {
+        var random = new Random();
+        int randomIndex = random.Next(0, _words.Length);
+        _chosenWord = _words[randomIndex];
+    }
+
+    private async Task WriteAsync(string letter)
+    {
+        if (_cursor >= _maxLength) return;
+
+        _matriz[_attempt][_cursor] = letter;
+        await InvokeAsync(StateHasChanged);
+        _cursor++;
+    }
+
+    private async Task EraseAsync()
+    {
+        if (_cursor <= 0) return;
+
+        _matriz[_attempt][_cursor - 1] = string.Empty;
+        await InvokeAsync(StateHasChanged);
+        _cursor--;
+    }
+
+    private async Task SubmitAsync()
+    {
+        var wordArr = _matriz[_attempt];
+        var cwArr = _chosenWord.ToArray();
+        var win = true;
+        var i = 0;
+
+        while(i < cwArr.Length)
+        {
+            if (cwArr[i].ToString() == wordArr[i])
+            {
+                await js.InvokeVoidAsync("addClassOnThisId", $"{_attempt}-{i}", "green");
+            }
+            else
+            {
+                win = false;
+                var yellow = false;
+
+                for (int j = 0; j < cwArr.Length; j++)
+                {
+                    if (wordArr[i] == cwArr[j].ToString() && wordArr[j] != cwArr[j].ToString())
+                    {
+                        yellow = true;
+                        break;
+                    }
+                }   
+
+                await js.InvokeVoidAsync("addClassOnThisId", $"{_attempt}-{i}", yellow ? "yellow" : "black");
+            }
+
+            i++;
+        }
+
+        if (win)
+        {
+            return;
+        }
+
+        _attempt++;
+        _cursor = 0;
+        await InvokeAsync(StateHasChanged);
+    } 
+}

@@ -1,0 +1,16 @@
+﻿.key {
+    display: flex;
+    background: #404040;
+    height: 45px;
+    width: 30px;
+    justify-content: center;
+    align-items: center;
+    border-radius: 2px;
+    font-weight: bold;
+    border-bottom: 3px solid #B3B3B3;
+    cursor: pointer;
+}
+
+    .key:active {
+        background: #282828;
+    }

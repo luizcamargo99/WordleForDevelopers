@@ -1,0 +1,111 @@
+﻿<div class="flex column space-10 center" style="margin-top: 10px">
+    <div class="flex row space-5">
+        <div class="key" @onclick='() => { Write("Q"); }'>
+            <span>Q</span>
+        </div>
+        <div class="key" @onclick='() => { Write("W"); }'>
+            <span>W</span>
+        </div>
+        <div class="key" @onclick='() => { Write("E"); }'>
+            <span>E</span>
+        </div>
+        <div class="key" @onclick='() => { Write("R"); }'>
+            <span>R</span>
+        </div>
+        <div class="key" @onclick='() => { Write("T"); }'>
+            <span>T</span>
+        </div>
+        <div class="key" @onclick='() => { Write("Y"); }'>
+            <span>Y</span>
+        </div>
+        <div class="key" @onclick='() => { Write("U"); }'>
+            <span>U</span>
+        </div>
+        <div class="key" @onclick='() => { Write("I"); }'>
+            <span>I</span>
+        </div>
+        <div class="key" @onclick='() => { Write("O"); }'>
+            <span>O</span>
+        </div>
+        <div class="key" @onclick='() => { Write("P"); }'>
+            <span>P</span>
+        </div>
+    </div>
+
+    <div class="flex row space-5">
+        <div class="key" @onclick='() => { Write("A"); }'>
+            <span>A</span>
+        </div>
+        <div class="key" @onclick='() => { Write("S"); }'>
+            <span>S</span>
+        </div>
+        <div class="key" @onclick='() => { Write("D"); }'>
+            <span>D</span>
+        </div>
+        <div class="key" @onclick='() => { Write("F"); }'>
+            <span>F</span>
+        </div>
+        <div class="key" @onclick='() => { Write("G"); }'>
+            <span>G</span>
+        </div>
+        <div class="key" @onclick='() => { Write("H"); }'>
+            <span>H</span>
+        </div>
+        <div class="key" @onclick='() => { Write("J"); }'>
+            <span>J</span>
+        </div>
+        <div class="key" @onclick='() => { Write("K"); }'>
+            <span>K</span>
+        </div>
+        <div class="key" @onclick='() => { Write("L"); }'>
+            <span>L</span>
+        </div>
+    </div>
+
+    <div class="flex row space-5">
+        <div class="key" @onclick='() => { Write("Z"); }'>
+            <span>Z</span>
+        </div>
+        <div class="key" @onclick='() => { Write("X"); }'>
+            <span>X</span>
+        </div>
+        <div class="key" @onclick='() => { Write("C"); }'>
+            <span>C</span>
+        </div>
+        <div class="key" @onclick='() => { Write("V"); }'>
+            <span>V</span>
+        </div>
+        <div class="key" @onclick='() => { Write("B"); }'>
+            <span>B</span>
+        </div>
+        <div class="key" @onclick='() => { Write("N"); }'>
+            <span>N</span>
+        </div>
+        <div class="key" @onclick='() => { Write("M"); }'>
+            <span>M</span>
+        </div>
+        <div class="key" @onclick='() => { Erase(); }'>
+            <span>DEL</span>
+        </div>
+    </div>
+
+</div>
+
+@code {
+    [Parameter]
+    public Action<string> WriteAction { get; set; }
+
+    [Parameter]
+    public Action EraseAction { get; set; }
+
+
+    private void Write(string letter)
+    {
+        WriteAction.Invoke(letter);
+    }
+
+    private void Erase()
+    {
+        EraseAction.Invoke();
+    }
+}

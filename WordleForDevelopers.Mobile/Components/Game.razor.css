@@ -1,0 +1,35 @@
+﻿
+span {
+    font-weight: bolder;
+}
+
+.cell {
+    width: 40px;
+    height: 40px;
+    border: 2px solid #B3B3B3;  
+    border-radius: 2px;
+}
+
+.green {
+    background-color: forestgreen;
+}
+
+.yellow {
+    background-color: goldenrod;
+}
+
+.black {
+    background-color: #353535;
+}
+
+button {
+    background: #7600d1;
+    border: none;
+    border-radius: 20px;
+    font-weight: bold;
+    color: white;
+    width: 120px;
+    padding: 10px;
+    font-size: 20px;
+    border-bottom: 3px solid #4a0083;
+}
